@@ -1,1 +1,116 @@
 
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>全力ほめ殺しボタン</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #fff0f6; /* 優しいピンク色 */
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        #praise-display {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #d6336c;
+            text-align: center;
+            margin-bottom: 50px;
+            height: 3rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .praise-button {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: none;
+            background: linear-gradient(145deg, #ff85a2, #e6005c);
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(230, 0, 92, 0.3);
+            transition: transform 0.1s, box-shadow 0.1s;
+            user-select: none;
+        }
+
+        .praise-button:active {
+            transform: scale(0.92);
+            box-shadow: 0 5px 10px rgba(230, 0, 92, 0.2);
+        }
+
+        /* ハートが飛び出すアニメーション用 */
+        .heart {
+            position: absolute;
+            font-size: 2rem;
+            pointer-events: none;
+            animation: moveUp 1s ease-out forwards;
+        }
+
+        @keyframes moveUp {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-200px) scale(1.5); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="praise-display">ボタンを押してね！</div>
+    
+    <button class="praise-button" onclick="praiseMe()">褒める！</button>
+
+    <script>
+        const praises = [
+            "存在がもはや芸術品！",
+            "今日という日を生き抜いてて偉すぎる！",
+            "その笑顔、100万ボルトの輝きだね！",
+            "世界で一番、あなたは頑張ってる！",
+            "君の優しさに救われてる人が必ずいるよ！",
+            "息をしてるだけで全肯定したい！",
+            "センスの塊すぎて眩しい！",
+            "歩くパワースポットとは君のことか！",
+            "努力の天才だね、尊敬しちゃう！",
+            "生まれてきてくれて本当にありがとう！"
+        ];
+
+        function praiseMe() {
+            const display = document.getElementById('praise-display');
+            const button = document.querySelector('.praise-button');
+
+            // ランダムに褒め言葉を選択
+            const randomIndex = Math.floor(Math.random() * praises.length);
+            display.innerText = praises[randomIndex];
+
+            // ハートを生成
+            createHeart(button);
+        }
+
+        function createHeart(button) {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerText = "❤️";
+            
+            // ボタン周辺のランダムな位置
+            const rect = button.getBoundingClientRect();
+            heart.style.left = (rect.left + rect.width / 2 + (Math.random() - 0.5) * 100) + 'px';
+            heart.style.top = rect.top + 'px';
+
+            document.body.appendChild(heart);
+
+            // アニメーション終了後に削除
+            setTimeout(() => {
+                heart.remove();
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
